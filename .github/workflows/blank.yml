@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test MEX
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-11, macos-latest, windows-2019, windows-latest,ubuntu-latest]
+        matlab: [R2020a, R2020b, R2021a, R2021b, R2022a, R2022b]
+        oneapi: [2021, 2022, 2023]
+        lang: [Fortran, C]
+        exclude:
+          - os: windows-2019
+            matlab: R2020a
+          - os: windows-2019
+            matlab: R2020b
+          - os: windows-latest
+            matlab: R2020a
+          - os: windows-latest
+            matlab: R2020b
+          - os: windows-latest
+            matlab: R2021a
+          - os: windows-latest
+            matlab: R2021b
+    steps:
+        - run: sleep 10s
